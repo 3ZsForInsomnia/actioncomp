@@ -1,0 +1,74 @@
+{
+  "name": "ramdux",
+  "version": "1.0.0",
+  "description": "Redux utils inspired by Ramda",
+  "main": "src/index.ts",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "test": "mocha test/*.spec.ts",
+    "test-cov": "nyc mocha test/*.spec.ts",
+    "lint": "tslint -c tslint.json 'src/**/*.ts' --project tsconfig.json",
+    "docs": "typedoc --out documentation/generated src",
+    "build": "tsc --p tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/3ZsForInsomnia/ramdux.git"
+  },
+  "keywords": [
+    "Redux",
+    "helper functions",
+    "Ramda"
+  ],
+  "author": "Zachary Levine",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/3ZsForInsomnia/ramdux/issues"
+  },
+  "homepage": "https://github.com/3ZsForInsomnia/ramdux#readme",
+  "dependencies": {
+    "@types/ramda": "^0.26.6",
+    "ramda": "^0.26.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.6",
+    "@types/sinon": "^7.0.11",
+    "chai": "^4.2.0",
+    "husky": "^1.3.1",
+    "istanbul": "^0.4.5",
+    "mocha": "^6.1.1",
+    "nyc": "^13.3.0",
+    "sinon": "^7.3.1",
+    "source-map-support": "^0.5.12",
+    "ts-node": "^8.0.3",
+    "tslint": "^5.15.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "typedoc": "^0.14.2",
+    "typescript": "^3.4.2",
+    "typings": "^2.1.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run test"
+    }
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "dist",
+      "node_modules",
+      "documentation",
+      "coverage",
+      "test"
+    ],
+    "reporter": [
+      "html"
+    ],
+    "all": true
+  }
+}
