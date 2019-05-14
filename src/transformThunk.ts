@@ -1,4 +1,4 @@
-import { transform, TransformMap } from './transform';
+import { transform, TransformMap } from './transformer';
 
 export const transformThunk =
   (type: string, transformMap: TransformMap) => (context: any) => (dispatch: Function) =>

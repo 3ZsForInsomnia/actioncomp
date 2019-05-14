@@ -1,4 +1,4 @@
-import { transform, TransformMap } from './transform';
+import { transform, TransformMap } from './transformer';
 import { DuxAction } from './types';
 
 export const aggregateThunk =
