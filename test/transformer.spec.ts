@@ -257,7 +257,3 @@ describe('create a recursively defined object from the given context', () => {
     expect(actual).to.eql(expected);
   });
 });
-
-describe('transformer is able to use helper methods properly', () => {
-
-});
