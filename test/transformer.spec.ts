@@ -88,7 +88,75 @@ describe('get a value from a context by path', () => {
 });
 
 describe('create a list from the given context', () => {
-
+  it('should create a new list by transforming an existing one', () => {
+    const context = {
+      listToTransform: [
+        {
+          name: 'dudeguy',
+          address: {
+            street: 'its a street',
+            city: 'some city',
+          },
+          id: 12345,
+        },
+        {
+          name: 'second dude',
+          address: {
+            street: 'its a street 2',
+            city: 'second city',
+          },
+          id: 12346,
+        },
+        {
+          name: 'last dude',
+          address: {
+            street: 'its a street 3',
+            city: 'last city',
+          },
+          id: 12347,
+        },
+      ],
+    };
+    const config = {
+      forEach: {
+        name: ['element', 'name'],
+        address: {
+          street: ['element', 'address', 'street'],
+          city: ['element', 'address', 'city'],
+        },
+        role: 'member',
+      },
+      listInContext: ['listToTransform'],
+    };
+    const expected = [
+      {
+        name: 'dudeguy',
+        address: {
+          street: 'its a street',
+          city: 'some city',
+        },
+        role: 'member',
+      },
+      {
+        name: 'second dude',
+        address: {
+          street: 'its a street 2',
+          city: 'second city',
+        },
+        role: 'member',
+      },
+      {
+        name: 'last dude',
+        address: {
+          street: 'its a street 3',
+          city: 'last city',
+        },
+        role: 'member',
+      },
+    ];
+    const actual = transformList(config.forEach, context.listToTransform, context);
+    expect(actual).to.eql(expected);
+  });
 });
 
 describe('create a string from the given context', () => {
@@ -114,8 +182,82 @@ describe('create a string from the given context', () => {
   });
 });
 
-describe('create a custom prop by passing in a function', () => {});
+describe('create a custom prop by passing in a function', () => {
+  it('should set the prop to whatever the function returns', () => {
+    const map = {
+      customVal: (data: any) => data.myValue,
+    };
+    const context = {
+      myValue: 'derp',
+    };
+    const actual = transform(map, context);
+    const expected = { customVal: 'derp' };
+    expect(actual).to.eql(expected);
+  });
 
-describe('create an object from the given context', () => {});
+  it('should not swallow errors from custom code', () => {
+    const map = {
+      customVal: (data: any) => { throw new Error('bad code'); },
+    };
+    const context = { myValue: 'derp' };
+    expect(() => transform(map, context)).to.throw();
+  });
+});
 
-describe('create a recursively defined object from the given context', () => {});
+describe('create an object from the given context', () => {
+  it('should use the value provided if it is a plain string', () => {
+    const map = { value: 'const value' };
+    const expected = { value: 'const value' };
+    const actual = transform(map, {});
+    expect(actual).to.eql(expected);
+  });
+
+  it('should create a new object according to the provided map', () => {
+    const map = {
+      const: 'const value',
+      getThis: ['nested', 'value'],
+    };
+    const context = {
+      nested: {
+        value: 'abc',
+      },
+    };
+    const expected = {
+      const: 'const value',
+      getThis: 'abc',
+    };
+    const actual = transform(map, context);
+    expect(actual).to.eql(expected);
+  });
+});
+
+describe('create a recursively defined object from the given context', () => {
+  it('should create a new object according to the provided map', () => {
+    const map = {
+      address: {
+        street: ['userData', 'address', 'street'],
+        city: ['userData', 'address', 'city'],
+      },
+    };
+    const context = {
+      userData: {
+        address: {
+          street: 'some street',
+          city: 'some city',
+        },
+      },
+    };
+    const expected = {
+      address: {
+        street: 'some street',
+        city: 'some city',
+      },
+    };
+    const actual = transform(map, context);
+    expect(actual).to.eql(expected);
+  });
+});
+
+describe('transformer is able to use helper methods properly', () => {
+
+});
