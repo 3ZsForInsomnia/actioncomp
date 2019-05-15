@@ -1,5 +1,5 @@
-import { asyncThunk } from './asyncThunk';
 import { aggregateThunk } from './aggregateThunk';
+import { asyncThunk } from './asyncThunk';
 import { callbackThunk } from './callbackThunk';
 import { conditionalThunk } from './conditionalThunk';
 import * as listOperators from './listHelpers';
@@ -24,4 +24,4 @@ export default {
   listActions,
   propActions,
   transformThunk,
-}
+};

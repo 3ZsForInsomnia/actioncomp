@@ -1,1 +1,3 @@
-export const asyncThunk = () => {};
+export const asyncThunk = () => {
+  return true;
+};

@@ -1,1 +1,3 @@
-export const addToList = () => {};
+export const addToList = () => {
+  return true;
+};

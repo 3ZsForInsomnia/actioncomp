@@ -3,7 +3,7 @@ export interface DuxAction {
   payload?: any;
 }
 
-export interface httpClient {
+export interface HttpClient {
   get?(): any;
   post?(): any;
   put?(): any;
