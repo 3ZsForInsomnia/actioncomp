@@ -6,9 +6,7 @@ import * as listOperators from './listHelpers';
 import * as listActions from './listPropOperations';
 import * as propActions from './propOperations';
 import {
-  ForEachTemplate,
   getValueFromContext,
-  ThunkifiedStringTemplate,
   transform,
   transformList,
   transformTemplate,
@@ -20,8 +18,12 @@ export default {
   asyncThunk,
   callbackThunk,
   conditionalThunk,
+  getValueFromContext,
   listOperators,
   listActions,
   propActions,
   transformThunk,
+  transform,
+  transformList,
+  transformTemplate,
 };
