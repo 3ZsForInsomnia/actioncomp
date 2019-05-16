@@ -16,7 +16,7 @@ describe('aggregate thunk', () => {
     expect(dispatchSpy.callCount).to.equal(actions.length);
   });
 
-  it.only('should transform the payload for each action accordingly', () => {
+  it('should transform the payload for each action accordingly', () => {
     let actual = {};
     const dispatchSpy = (newProps: any) => {
       actual = {
