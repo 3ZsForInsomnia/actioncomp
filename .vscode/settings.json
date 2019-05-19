@@ -1,3 +1,4 @@
 {
-    "quokka.suppressExpirationNotifications": true
+    "quokka.suppressExpirationNotifications": true,
+    "editor.tabSize": 2
 }

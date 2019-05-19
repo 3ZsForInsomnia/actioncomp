@@ -19,7 +19,7 @@ export const removeProp = (propToRemove: string) => (state: any, action: DuxActi
 };
 
 export const toggleProp = (propToToggle: string) => (state: any, action: DuxAction) => {
-  if (typeof state.propToToggle === 'boolean') {
+  if (typeof state[propToToggle] === 'boolean') {
     return {
       ...state,
       [propToToggle]: !state[propToToggle],

@@ -9,7 +9,7 @@ import {
   ForEachTemplate,
   getValueFromContext,
   ThunkifiedStringTemplate,
-  transform,
+  transformer,
   transformList,
   transformTemplate,
 } from './transformer';
@@ -24,4 +24,4 @@ export default {
   listActions,
   propActions,
   transformThunk,
-}
+};

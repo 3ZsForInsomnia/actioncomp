@@ -1,4 +1,4 @@
-export const transform = (map: TransformMap, context: any) => {
+export const transformer = (map: TransformMap, context: any) => {
   const result: any = {};
   const keys = Object.keys(map);
   Object.keys(map).forEach((prop: any, index: number) => {
@@ -7,7 +7,7 @@ export const transform = (map: TransformMap, context: any) => {
     else if (typeof prop === 'object') {
       if (prop.forEach) result[keys[index]] = transformList(prop, context)();
       else if (prop.thunkTemplate) result[keys[index]] = transformTemplate(prop, context);
-      else result[keys[index]] = transform(prop, context);
+      else result[keys[index]] = transformer(prop, context);
     }
     else throw new Error('Transformer: Unknown transform map option provided.');
   });
@@ -39,4 +39,4 @@ export const getValueFromContext = (path: string[], context: any): any => {
   } else return '';
 };
 
-export const transformList = (list: any[], context: any): any => list.map((element: any): any => transform(element, context));
+export const transformList = (list: any[], context: any): any => list.map((element: any): any => transformer(element, context));
