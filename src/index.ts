@@ -1,15 +1,13 @@
-import { asyncThunk } from './asyncThunk';
 import { aggregateThunk } from './aggregateThunk';
+import { asyncThunk } from './asyncThunk';
 import { callbackThunk } from './callbackThunk';
 import { conditionalThunk } from './conditionalThunk';
 import * as listOperators from './listHelpers';
 import * as listActions from './listPropOperations';
 import * as propActions from './propOperations';
 import {
-  ForEachTemplate,
   getValueFromContext,
-  ThunkifiedStringTemplate,
-  transformer,
+  transform,
   transformList,
   transformTemplate,
 } from './transformer';
@@ -20,8 +18,12 @@ export default {
   asyncThunk,
   callbackThunk,
   conditionalThunk,
+  getValueFromContext,
   listOperators,
   listActions,
   propActions,
   transformThunk,
+  transform,
+  transformList,
+  transformTemplate,
 };

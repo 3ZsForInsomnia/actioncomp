@@ -70,5 +70,6 @@
       "html"
     ],
     "all": true
-  }
+  },
+  "files": ["/dist"]
 }

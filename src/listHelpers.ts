@@ -1,130 +1,47 @@
-/**
- * Adds an item to the list
- * @param list to be added to
- * @param item to be added
- */
-export function addToList<T>(list: T[], item: T) {
-  return [...list, item];
-}
+export const add = <T>(list: T[]) => (element: T) => [...list, element];
+export const addAll = <T>(list: T[]) => (element: T[]) => [...list, ...element];
 
-/**
- * Returns the list with the item added at the specified location
- * @param list to be added to
- * @param item to be added
- * @param index in the list where `item` will be added
- */
-export function addToListAtIndex<T>(list: T[], item: T, index: number) {
-  if (index >= 0 && index < list.length) {
-    const tempArray = list;
-    tempArray.splice(index, 0, item);
-    return tempArray;
-  }
-}
+export const find = <T, K extends keyof T>(propToCheck: K) => (list: T[]) => (value: any): T =>
+  list.find(curr => curr[propToCheck] === value);
+export const findIndex = <T, K extends keyof T>(propToCheck: K) => (list: T[]) => (value: any): number =>
+  list.findIndex(curr => curr[propToCheck] === value);
+export const findAll = <T, K extends keyof T>(propToCheck: K) => (list: T[]) => (comparedToValue: any): T[] =>
+  findAllByPredicate<T>((curr: T, value: any) => curr[propToCheck] === value)(list)(comparedToValue);
+export const findByPredicate = <T>(predicate: Function) => (list: T[]) => (value: any): T =>
+  list.find(curr => predicate(curr, value));
+export const findIndexByPredicate = <T>(predicate: Function) => (list: T[]) => (value: any): number =>
+  list.findIndex(curr => predicate(curr, value));
+export const findAllByPredicate = <T>(predicate: Function) => (list: T[]) => (value: any): T[] =>
+  list.filter(curr => predicate(curr, value));
 
-/**
- * Adds the given item to the front of the list
- * @param list to be added to
- * @param item to add
- */
-export function addToStartOfList<T>(list: T[], item: T) {
-  return addToListAtIndex(list, item, 0);
-}
-
-/**
- * Removes the element at the specified index from the list
- * @param list to remove the element from
- * @param index of the element to remove
- */
-export function removeFromListAtIndex<T>(list: T[], index: number) {
-  if (index >= 0 && index < list.length) {
-    const tempArray = list;
-    tempArray.splice(index, 1);
-    return tempArray;
-  }
-}
-
-/**
- * Removes items from the list for which the predicate returns true
- * @param list to be updated
- * @param predicate to run on all elements of the list
- * @param item optional item to compare elements to, passed to the predicate as a second argument
- */
-export function removeFromListByPredicate<T>(list: T[], predicate: Function, item?: T) {
-  return list.filter(element => {
-    return !predicate(element, item);
+export const sortList = <T>(list: T[]) => list.sort();
+export const sortListByProp = <T, K extends keyof T>(propToCheck: K) => (list: T[]) =>
+  list.sort((a, b) => {
+    if (a[propToCheck] > b[propToCheck]) return 1;
+    if (a[propToCheck] === b[propToCheck]) return 0;
+    if (a[propToCheck] < b[propToCheck]) return -1;
   });
-}
 
-/**
- * Adds all items to the end of the list
- * @param list to be added to
- * @param items to add to the list
- */
-export function addAllToList<T>(list: T[], items: T[]) {
-  return [...list, ...items];
-}
+export const remove = <T, K extends keyof T>(propToCheck: K) => (list: T[]) => (value: any) => {
+  const index = findIndex<T, K>(propToCheck)(list)(value);
+  if (index === -1) return list;
+  if (index > 0 && index < list.length - 1) return ([] as T[]).concat(list.slice(0, index), list.slice(index + 1));
+  if (index === list.length - 1) return list.slice(0, index);
+};
+export const removeAll = <T, K extends keyof T>(propToCheck: K) => (list: T[]) => (comparedToValue: any) =>
+  removeAllByPredicate<T>((curr: T, value: any) => curr[propToCheck] !== value)(list)(comparedToValue);
+export const removeAllByPredicate = <T>(predicate: Function) => (list: T[]) => (value: any) =>
+  list.filter(curr => predicate(curr, value));
 
-/**
- * Returns a new list with items that satisfy the predicate overwriting properties of the element they matched
- * @param list to be updated
- * @param predicate that takes an element in the list and the item, and returns true if they match
- * @param item to update in the list
- *
- * Note that this works best with typed Arrays. Array<any> with multiple types for elements could have
- * unpredictable results, so be cautious using for such arrays.
- */
-export function updateObjectInList<T extends Object>(list: T[], predicate: Function | number, item: T) {
-  return item instanceof Object ? list.map((element, index) => {
-    return typeof predicate === 'function'
-      ? predicate(element, item) ? Object.assign({}, element, item) : element
-      : index === predicate ? Object.assign({}, element, item) : element;
-  }) : list.map((element, index) => {
-    return typeof predicate === 'function'
-      ? predicate(element, item) ? item : element
-      : index === predicate ? item : element;
-  });
-}
-
-/**
- * Returns the first item in the list for which the checked property matches the given value
- * @param list to search
- * @param propToCheck for each element
- * @param propValue to compare with at the given prop
- *
- * Should be updated to use the existing equality checker
- */
-export function findItemByProperty<T>(list: T[], propToCheck: string, propValue: any) {
-  return list.find((element: any) => {
-    return element[propToCheck] === propValue;
-  });
-}
-
-/**
- * Returns all elements for which the checked prop matches the given value
- * @param list to search
- * @param propToCheck for each element
- * @param propValue to compare with at the given prop
- *
- * Should be updated to use the existing equality checker
- */
-export function findAllItemsByProperty<T>(list: T[], propToCheck: string, propValue: any) {
-  return list.filter((element: any) => {
-    return element[propToCheck] === propValue;
-  });
-}
-
-/**
- * Returns the index for the first element for which the checked prop matches the given value
- * @param list to search
- * @param propToCheck for each element
- * @param propValue to compare with at the given prop
- */
-export function getIndexOfItem<T>(list: T[], propToCheck: string, propValue: any) {
-  return list.findIndex((element: any) => {
-    return element[propToCheck] === propValue;
-  });
-}
-
-/**
- * Collection of immutable list operations. All methods here return a *new* list.
- */
+export const update = <T, K extends keyof T>(propToCheck: K) => (list: T[]) => (newElement: T) => {
+  const index = findIndex<T, K>(propToCheck)(list)(newElement[propToCheck]);
+  if (index === -1) return list;
+  if (index === list.length - 1) return ([] as T[]).concat(list.slice(0, index), newElement);
+  return ([] as T[]).concat(list.slice(0, index), newElement, list.slice(index + 1));
+};
+export const updateByPredicate = <T>(predicate: Function) => (list: T[]) => (newElement: T) => {
+  const index = findIndexByPredicate<T>(predicate)(list)(newElement);
+  if (index === -1) return list;
+  if (index === list.length - 1) return ([] as T[]).concat(list.slice(0, index), newElement);
+  return ([] as T[]).concat(list.slice(0, index), newElement, list.slice(index + 1));
+};

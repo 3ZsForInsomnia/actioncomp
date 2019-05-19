@@ -1,13 +1,13 @@
-import { transformer, TransformMap } from './transformer';
+import { transform, TransformMap } from './transformer';
 import { DuxAction } from './types';
 
 export const aggregateThunk =
-  actions: {payload?: TransformMap, type: string}[], context: any) =>
-    (dispatch: Function) => actions.forEach(handleAction(dispatch)(context));
+  (actions: {payload?: TransformMap, type: string}[], context: any) =>
+    (dispatch: Function) => actions.forEach(handleAction(context)(dispatch));
 
-const handleAction = (dispatch: Function) => (context: any) => (action: DuxAction) => {
+const handleAction = (context: any) => (dispatch: Function) => (action: DuxAction) => {
   dispatch({
     type: action.type,
-    payload: action.payload ? transformer(action.payload, context) : {},
+    payload: action.payload ? transform(action.payload, context) : {},
   });
 };
