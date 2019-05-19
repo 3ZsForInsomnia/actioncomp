@@ -3,7 +3,7 @@ import * as sinon from 'sinon';
 import { conditionalThunk } from './../src/conditionalThunk';
 
 describe('conditional thunk', () => {
-  it('should run the predicate function and then dispatch if it returns false', () => {
+  it('should run the predicate function and then dispatch if it returns true', () => {
     const dispatch = sinon.spy();
     const spyOnPredicate = sinon.spy(() => true);
     conditionalThunk(spyOnPredicate, 'myAction')(dispatch, () => {});
