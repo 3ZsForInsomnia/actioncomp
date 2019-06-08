@@ -1,7 +1,7 @@
 {
-  "name": "ramdux",
+  "name": "actioncomp",
   "version": "1.0.0",
-  "description": "Redux utils inspired by Ramda",
+  "description": "Redux utils for common patterns and action composition",
   "main": "src/index.ts",
   "scripts": {
     "clean": "rm -rf dist",
@@ -13,23 +13,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/3ZsForInsomnia/ramdux.git"
+    "url": "git+https://github.com/3ZsForInsomnia/actioncomp.git"
   },
   "keywords": [
     "Redux",
     "helper functions",
-    "Ramda"
+    "Action composition"
   ],
   "author": "Zachary Levine",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/3ZsForInsomnia/ramdux/issues"
+    "url": "https://github.com/3ZsForInsomnia/actioncomp/issues"
   },
-  "homepage": "https://github.com/3ZsForInsomnia/ramdux#readme",
-  "dependencies": {
-    "@types/ramda": "^0.26.6",
-    "ramda": "^0.26.1"
-  },
+  "homepage": "https://github.com/3ZsForInsomnia/actioncomp#readme",
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
@@ -71,5 +67,7 @@
     ],
     "all": true
   },
-  "files": ["/dist"]
+  "files": [
+    "/dist"
+  ]
 }
